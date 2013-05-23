@@ -6,8 +6,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     {
         $this->bootstrap('frontcontroller');
         $front = $this->getResource('frontcontroller');
-        $front->registerPlugin(new Syntra_Controller_Plugin_Translate()); // => library/Syntra/Controller/Plugin/Translate.php
-        $front->registerPlugin(new Syntra_Controller_Plugin_Navigation());
+//        $front->registerPlugin(new Syntra_Controller_Plugin_Translate()); // => library/Syntra/Controller/Plugin/Translate.php
+//        $front->registerPlugin(new Syntra_Controller_Plugin_Navigation());
         //$front->registerPlugin(new Syntra_Auth_Acl());
         //$front->registerPlugin(new Syntra_Auth_Auth());
     }
@@ -62,15 +62,30 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
                 'controller'  => 'index',
                 'action'      => 'index'
         )));
+        
+        
+        
+        $router->addRoute('api',
+            new Zend_Controller_Router_Route('api/:controller/:action',array(
+                'module'      => 'Api',
+                'controller'  => 'Page',
+                'action'      => 'index'
+        )));    
+        
+        
+        
     }
     
     
     
     protected function _initRestRoute() {
+        
+        // alle controllers binnen de Api module worden hierdoor REST API controllers
+        // Nodig get / post / put /delete  action om dit te laten werken
         $this->bootstrap('frontController');
         $frontController = Zend_Controller_Front::getInstance();
-        $restRoute = new Zend_Rest_route($frontController);
-        $frontController->getRouter()->addRoute('default',$restRoute);
+        $restRoute = new Zend_Rest_route($frontController,array(),array('Api'));
+        $frontController->getRouter()->addRoute('rest',$restRoute);
     }
 
 }

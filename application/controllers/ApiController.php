@@ -11,28 +11,43 @@ class ApiController extends Zend_Controller_Action {
     
     //
 
-    public function indexAction() {
-        $this->getResponse()->appendBody('indexAction() return');
+    public function clientAction(){
+        $client = new Zend_Http_Client();
+        
+//        $client->setUri('http://localhost:8010/Api/Page');
+//        
+//        $client->setEncType(Zend_Http_Client::ENC_URLENCODED);// tekst
+//        $client->setParameterPost(array('key' => 'value'));
+//        
+//        $response = $client->request('POST');// opwel PUT, POST, DELETE 
+//        echo $response->getBody();
+        
+        
+        
+        // the get command
+//      $client->setUri('http://localhost:8010/Api/Page/1');
+//       $response = $client->request('GET');// opwel PUT, POST, DELETE 
+//        echo $response->getBody();
+           
+        
+        // hiermee kan dan worden gecommuniseerd met andere systmen
+        // the POST
+        $post = array('field' => 'value');
+        $client->setUri('http://localhost:8010/Api/Page');
+        
+        $client->setEncType(Zend_Http_Client::ENC_URLENCODED);// tekst
+        $client->setParameterPost($post);
+        
+        $response = $client->request('POST');// opwel PUT, POST, DELETE 
+        //echo $response->getBody();
+        var_dump($response);
+        
+        
+//      $client->setUri('http://localhost:8010/api');
+//       $response = $client->request('DELETE');// opwel PUT, post, DELETE 
+//        echo $response->getBody();
     }
-
     
-    // vaste 4 mogelijke action die mogelijk zijn
-    public function getAction() {
-        $this->getResponse()->appendBody('getAction() return');
-        // action body
-    }
-
-    public function postAction() {
-        $this->getResponse()->appendBody('postAction() return');
-    }
-
-    public function putAction() {
-        $this->getResponse()->appendBody('putAction() return');
-    }
-
-    public function deleteAction() {
-        $this->getResponse()->appendBody('deleteAction() return');
-    }
 
 }
 
